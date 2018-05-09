@@ -5,8 +5,6 @@ class RawTransactions {
     this.baseURL = baseURL;
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   createRawTransaction(inputs, outputs, locktime) {
     // creates an unsigned serialized transaction that spends a previous output to a new output with a P2PKH or P2SH address. The transaction is not stored in the wallet or transmitted to the network.
 
@@ -50,12 +48,7 @@ class RawTransactions {
     });
   }
 
-=======
->>>>>>> 367861ff622ce5368cf9e9e9e22284272025b4a1
   decodeRawTransaction(hex) {
-=======
-  decodeRawTransaction(rawHex) {
->>>>>>> 850411646bbe2151d77948e26a8b90f751dac77a
     // decodes a serialized transaction hex string into a JSON object describing the transaction.
 
     // Parameter #1—serialized transaction in hex
@@ -127,7 +120,6 @@ class RawTransactions {
     // "hex"             (string) The transaction hash in hex
     //
 
-<<<<<<< HEAD
     let params = [];
     if(hexstring) {
       params.push(hexstring);
@@ -148,9 +140,7 @@ class RawTransactions {
         password: this.config.password
       }
     })
-=======
     return axios.post(`${this.baseURL}rawtransactions/sendRawTransaction/${hex}?allowhighfees=${allowhighfees}`)
->>>>>>> 367861ff622ce5368cf9e9e9e22284272025b4a1
     .then((response) => {
       return response.data.result;
     })
