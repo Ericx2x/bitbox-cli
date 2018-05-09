@@ -24,7 +24,11 @@ let cmd = require('node-cmd');
 // let ProgressBar = require('progress');
 
 program
+<<<<<<< HEAD
   .version('0.7.23');
+=======
+  .version('0.8.0');
+>>>>>>> 367861ff622ce5368cf9e9e9e22284272025b4a1
 
 program
   .command('new <name>')
@@ -80,42 +84,42 @@ program
       } else {
         host = 'localhost';
       }
-
-      let port;
-      if(options && options.port) {
-        port = options.port;
-      } else if(config && config.new && config.new.port) {
-        port = config.new.port;
-      } else {
-        port = 8332;
-      }
-
-      let username;
-      if(options && options.username) {
-        username = options.username;
-      } else if(config && config.new && config.new.username) {
-        username = config.new.username;
-      } else {
-        username = '';
-      }
-
-      let password;
-      if(options && options.password) {
-        password = options.password;
-      } else if(config && config.new && config.new.password) {
-        password = config.new.password;
-      } else {
-        password = '';
-      }
-
-      let corsproxy;
-      if(options && options.corsproxy) {
-        corsproxy = options.corsproxy;
-      } else if(config && config.new && config.new.corsproxy) {
-        corsproxy = config.new.corsproxy;
-      } else {
-        corsproxy = false;
-      }
+      //
+      // let port;
+      // if(options && options.port) {
+      //   port = options.port;
+      // } else if(config && config.new && config.new.port) {
+      //   port = config.new.port;
+      // } else {
+      //   port = 8332;
+      // }
+      //
+      // let username;
+      // if(options && options.username) {
+      //   username = options.username;
+      // } else if(config && config.new && config.new.username) {
+      //   username = config.new.username;
+      // } else {
+      //   username = '';
+      // }
+      //
+      // let password;
+      // if(options && options.password) {
+      //   password = options.password;
+      // } else if(config && config.new && config.new.password) {
+      //   password = config.new.password;
+      // } else {
+      //   password = '';
+      // }
+      //
+      // let corsproxy;
+      // if(options && options.corsproxy) {
+      //   corsproxy = options.corsproxy;
+      // } else if(config && config.new && config.new.corsproxy) {
+      //   corsproxy = config.new.corsproxy;
+      // } else {
+      //   corsproxy = false;
+      // }
 
       if(options && options.scaffold) {
         let scaffold = options.scaffold.toLowerCase();
@@ -160,11 +164,7 @@ program
   networks: {
     ${environment}: {
       protocol: "${protocol}",
-      host: "${host}",
-      port: "${port}",
-      username: "${username}",
-      password: "${password}",
-      corsproxy: ${corsproxy}
+      host: "${host}"
     }
   }
 };

@@ -25,23 +25,19 @@ class BITBOXCli {
   constructor(config) {
     if(!config) {
       config = {
-        username: '',
-        password: '',
         protocol: '',
         host: '',
-        port: '',
         test: true
       };
     }
 
     this.config = config;
     this.baseURL = '/';
-    if(this.config.corsproxy && this.config.corsproxy === 'local' && !this.config.test) {
-      this.baseURL = `${config.protocol}://localhost:1337/${config.host}:${config.port}/`;
-    } else if(this.config.corsproxy && this.config.corsproxy === 'remote' && !this.config.test) {
-      this.baseURL = `${config.protocol}://proxy.bitbox.earth/${config.host}:${config.port}/`;
-    } else if(!this.config.test) {
+
+    if(!this.config.test && this.config.host !== 'localhost') {
       this.baseURL = `${config.protocol}://${config.host}/v1/`;
+    } else if(!this.config.test && this.config.host === 'localhost') {
+      this.baseURL = `${config.protocol}://${config.host}:8332/`;
     }
 
     this.BitcoinCash = new BitcoinCash();

@@ -14,20 +14,7 @@ class Network {
     // 2. "command"  (string, required) 'add' to add a node to the list, 'remove' to remove a node from the list, 'onetry' to try a connection to the node once
     //
 
-    return axios.post(this.baseURL, {
-      jsonrpc: "1.0",
-      id:"addnode",
-      method: "addnode",
-      params: [
-        node,
-        command
-      ]
-    }, {
-      auth: {
-        username: this.config.username,
-        password: this.config.password
-      }
-    })
+    return axios.post(`${this.baseURL}network/addNode/${node}/${command}`)
     .then((response) => {
       return response.data.result;
     })
@@ -44,17 +31,7 @@ class Network {
     // Result—null on success
     // JSON null when the list was cleared
 
-    return axios.post(this.baseURL, {
-      jsonrpc: "1.0",
-      id:"clearbanned",
-      method: "clearbanned",
-      params: []
-    }, {
-      auth: {
-        username: this.config.username,
-        password: this.config.password
-      }
-    })
+    return axios.post(`${this.baseURL}clearBanned`)
     .then((response) => {
       return response.data.result;
     })
@@ -75,29 +52,7 @@ class Network {
     // Properties
     // 1. "address"     (string, optional) The IP address/port of the node
     // 2. "nodeid"      (number, optional) The node ID (see getpeerinfo for node IDs)
-    let params;
-    if(configuration && configuration.address && configuration.address !== "") {
-      params = [
-        configuration.address
-      ];
-    } else if(configuration && configuration.nodeid) {
-      params = [
-        "",
-        configuration.nodeid
-      ];
-    }
-
-    return axios.post(this.baseURL, {
-      jsonrpc: "1.0",
-      id:"disconnectnode",
-      method: "disconnectnode",
-      params: params
-    }, {
-      auth: {
-        username: this.config.username,
-        password: this.config.password
-      }
-    })
+    return axios.post(`${this.baseURL}disconnectNode/${configuration}`)
     .then((response) => {
       return response.data.result;
     })
@@ -131,8 +86,8 @@ class Network {
     if(node) {
       path = `${path}?node=${node}`;
     }
-    
-    return axios.get()
+
+    return axios.get(path)
     .then((response) => {
       return response.data.result;
     })
@@ -142,15 +97,14 @@ class Network {
   }
 
   getConnectionCount() {
-
     // Returns the number of connections to other nodes.
     //
     // Result:
     // n          (numeric) The connection count
 
-    return axios.get(`${this.baseURL}mining/getConnectionCount`)
+    return axios.get(`${this.baseURL}network/getConnectionCount`)
     .then((response) => {
-      return response.data.result;
+      return response.data;
     })
     .catch((error) => {
       return JSON.stringify(error.response.data.error.message);
@@ -176,7 +130,7 @@ class Network {
     //   }
     // }
 
-    return axios.get(`${this.baseURL}mining/getNetTotals`)
+    return axios.get(`${this.baseURL}network/getNetTotals`)
     .then((response) => {
       return response.data.result;
     })
@@ -221,7 +175,7 @@ class Network {
     //   "warnings": "..."                    (string) any network warnings
     // }
 
-    return axios.get(`${this.baseURL}mining/getNetworkInfo`)
+    return axios.get(`${this.baseURL}network/getNetworkInfo`)
     .then((response) => {
       return response.data.result;
     })
@@ -275,7 +229,7 @@ class Network {
     //   ,...
     // ]
 
-    return axios.get(`${this.baseURL}mining/getPeerInfo`)
+    return axios.get(`${this.baseURL}network/getPeerInfo`)
     .then((response) => {
       return response.data.result;
     })
@@ -286,7 +240,7 @@ class Network {
 
   listBanned() {
     // List all banned IPs/Subnets.
-    return axios.get(`${this.baseURL}mining/listBanned`)
+    return axios.get(`${this.baseURL}network/listBanned`)
     .then((response) => {
       return response.data.result;
     })
@@ -300,7 +254,7 @@ class Network {
     // Results provided in getpeerinfo, pingtime and pingwait fields are decimal seconds.
     // Ping command is handled in queue with all other commands, so it measures processing backlog, not just network ping.
 
-    return axios.get(`${this.baseURL}mining/ping`)
+    return axios.get(`${this.baseURL}network/ping`)
     .then((response) => {
       return response.data.result;
     })
@@ -317,34 +271,8 @@ class Network {
     // 2. "command"      (string, required) 'add' to add a IP/Subnet to the list, 'remove' to remove a IP/Subnet from the list
     // 3. "bantime"      (numeric, optional) time in seconds how long (or until when if [absolute] is set) the ip is banned (0 or empty means using the default time of 24h which can also be overwritten by the -bantime startup argument)
     // 4. "absolute"     (boolean, optional) If set, the bantime must be a absolute timestamp in seconds since epoch (Jan 1 1970 GMT)
-    let params = [];
-    if(subnet) {
-      params.push(subnet);
-    }
 
-    if(command) {
-      params.push(command);
-    }
-
-    if(bantime) {
-      params.push(bantime);
-    }
-
-    if(absolute) {
-      params.push(absolute);
-    }
-
-    return axios.post(this.baseURL, {
-      jsonrpc: "1.0",
-      id:"setban",
-      method: "setban",
-      params: params
-    }, {
-      auth: {
-        username: this.config.username,
-        password: this.config.password
-      }
-    })
+    return axios.post(`${this.baseurl}network/setban/${subnet}/${command}`)
     .then((response) => {
       return response.data.result;
     })
@@ -359,19 +287,7 @@ class Network {
     // Arguments:
     // 1. "state"        (boolean, required) true to enable networking, false to disable
 
-    return axios.post(this.baseURL, {
-      jsonrpc: "1.0",
-      id:"setnetworkactive",
-      method: "setnetworkactive",
-      params: [
-        state
-      ]
-    }, {
-      auth: {
-        username: this.config.username,
-        password: this.config.password
-      }
-    })
+    return axios.post(`${this.baseurl}network/setNetworkActive/${state}`)
     .then((response) => {
       return response.data.result;
     })
